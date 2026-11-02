@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arya’s Godh Bharai &amp; Baby Shower · Sunday, December 6</title>
-<meta name="description" content="Preeti &amp; Atul invite you to the godh bharai and baby shower for baby Arya. Sunday, December 6, 2026, 1:00 PM onwards, 1400 Buttonwood St, Philadelphia. Attire: Indian.">
-<meta property="og:title" content="You’re invited: Arya’s Godh Bharai &amp; Baby Shower">
+<title>Preeti’s Godh Bharai / Baby Shower Invite</title>
+<meta name="description" content="Preeti &amp; Atul invite you to Preeti’s godh bharai and baby shower. Sunday, December 6, 2026, 1:00 PM onwards, 1400 Buttonwood St, Philadelphia. Attire: Indian.">
+<meta property="og:title" content="Preeti’s Godh Bharai / Baby Shower Invite">
 <meta property="og:description" content="Sunday, December 6, 2026 · 1:00 PM onwards · 1400 Buttonwood St, Philadelphia. Tap to open your invitation.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#F8DDCB">
@@ -119,6 +119,31 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
 .divider .keri{display:block}
 
 .ornaments{display:none}
+.rsvp{margin:32px 24px 0; width:calc(100% - 48px); padding:24px 20px; border:1px solid rgba(184,137,43,.5); border-radius:18px; background:var(--panel); display:flex; flex-direction:column; gap:16px; text-align:left}
+.rsvp .kicker{text-align:center}
+.rsvp-sub{text-align:center; font-size:14px; line-height:1.5; color:var(--ink-2)}
+.fld{display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:500; color:var(--rose)}
+.fld input,.fld textarea{font-family:var(--sans); font-size:16px; font-weight:400; color:var(--ink); background:#FFFAF2; border:1px solid rgba(184,137,43,.6); border-radius:12px; padding:12px 14px; min-height:48px; width:100%; resize:vertical}
+.fld input:focus,.fld textarea:focus{outline:2px solid var(--gold-soft); outline-offset:1px}
+.fld input[aria-invalid="true"]{border-color:#A3261E}
+.choice{border:0; padding:0; margin:0; min-width:0}
+.choice legend{padding:0; margin-bottom:8px; font-size:13px; font-weight:500; color:var(--rose)}
+.opts{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+.opts label{position:relative}
+.opts input{position:absolute; inset:0; margin:0; opacity:0; cursor:pointer}
+.opts span{display:flex; align-items:center; justify-content:center; min-height:46px; border-radius:999px; border:1.5px solid var(--gold); background:#FFFAF2; color:var(--rose); font-size:15px; font-weight:500}
+.opts input:checked + span{background:var(--rose-btn); border-color:var(--rose-btn); color:#FFF4EC}
+.opts input:focus-visible + span{outline:2px solid var(--gold-soft); outline-offset:3px}
+.stepper{display:flex; align-items:center; gap:14px}
+.stepper button{width:48px; height:48px; border-radius:50%; border:1.5px solid var(--gold); background:#FFFAF2; color:var(--rose); font-size:22px; line-height:1; cursor:pointer}
+.stepper output{min-width:36px; text-align:center; font-family:var(--display); font-size:28px; color:var(--rose)}
+.rsvp.no .guests{display:none}
+.err{display:none; font-size:13px; color:#A3261E}
+.err.show{display:block}
+.rsvp .send{width:100%; border:0; font-family:var(--sans)}
+.thanks{display:none; text-align:center; font-size:14px; line-height:1.5; color:var(--rose)}
+.rsvp.sent .thanks{display:block}
+.rsvp-alt{text-align:center; font-size:13px; color:var(--ink-2)}
 .card:not(.closed) .ornaments{display:block; position:absolute; inset:0; pointer-events:none; z-index:0; animation:riseIn 1.2s ease .5s both}
 .month{margin-top:34px; font-family:var(--serif); font-size:16px; font-weight:600; letter-spacing:.32em; color:var(--gold-text)}
 .dateline{margin-top:8px; width:calc(100% - 56px); display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:center; gap:8px}
@@ -245,6 +270,39 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
       <p class="today">The celebration is here!</p>
     </div>
 
+    <form class="rsvp" id="rsvp" novalidate>
+      <p class="kicker">Kindly RSVP</p>
+      <p class="rsvp-sub">Let us know if you can join us. Your reply opens in WhatsApp, ready to send.</p>
+      <label class="fld">Your name
+        <input id="rsvpName" type="text" autocomplete="name" placeholder="Full name" aria-describedby="rsvpErr">
+      </label>
+      <fieldset class="choice">
+        <legend>Will you join us?</legend>
+        <div class="opts">
+          <label><input type="radio" name="att" value="Yes" checked><span>Yes</span></label>
+          <label><input type="radio" name="att" value="No"><span>No</span></label>
+          <label><input type="radio" name="att" value="Maybe"><span>Maybe</span></label>
+        </div>
+      </fieldset>
+      <div class="fld guests">Number of guests, including you
+        <div class="stepper">
+          <button type="button" id="minus" aria-label="Fewer guests">−</button>
+          <output id="count" aria-live="polite">1</output>
+          <button type="button" id="plus" aria-label="More guests">+</button>
+        </div>
+      </div>
+      <label class="fld">Message for Preeti (optional)
+        <textarea id="rsvpNote" rows="2" placeholder="Wishes, dietary needs, anything we should know"></textarea>
+      </label>
+      <p class="err" id="rsvpErr" role="alert">Please add your name so we know who’s coming.</p>
+      <button type="submit" class="btn primary send">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3DC9C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5 5.3 15.6A8 8 0 1 1 8.6 18.8Z"/><path d="M9 10.5h6M9 13.5h4"/></svg>
+        Send RSVP on WhatsApp
+      </button>
+      <p class="thanks" id="rsvpThanks">Thank you! Tap send in WhatsApp to finish your RSVP.</p>
+      <p class="rsvp-alt">Not on WhatsApp? Text or call <a href="sms:+16673698906">(667) 369-8906</a></p>
+    </form>
+
     <div class="actions">
       <a class="btn primary" href="https://my.babylist.com/baby-registry-preeti-agrawal" target="_blank" rel="noopener">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3DC9C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4z"/><path d="M3 7h18v4H3z"/><path d="M12 7v13"/><path d="M12 7C10 3 6 4 7.5 6.5 8.3 7.5 12 7 12 7Z"/><path d="M12 7c2-4 6-3 4.5-.5C15.7 7.5 12 7 12 7Z"/></svg>
@@ -255,7 +313,7 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>
           Directions
         </a>
-        <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Arya%E2%80%99s+Godh+Bharai+%26+Baby+Shower&amp;dates=20261206T180000Z/20261206T220000Z&amp;location=1400+Buttonwood+St%2C+Philadelphia%2C+PA&amp;details=Hosted+by+Preeti+%26+Atul.+Gift+registry%3A+https%3A%2F%2Fmy.babylist.com%2Fbaby-registry-preeti-agrawal" target="_blank" rel="noopener">
+        <a class="btn ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Preeti%E2%80%99s+Godh+Bharai+%26+Baby+Shower&amp;dates=20261206T180000Z/20261206T220000Z&amp;location=1400+Buttonwood+St%2C+Philadelphia%2C+PA&amp;details=Hosted+by+Preeti+%26+Atul.+Gift+registry%3A+https%3A%2F%2Fmy.babylist.com%2Fbaby-registry-preeti-agrawal" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
           Add to calendar
         </a>
@@ -318,6 +376,33 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
   });
 
   document.getElementById('petalBtn').addEventListener('click', function () { shower(30); });
+
+  // RSVP via WhatsApp
+  var rsvp = document.getElementById('rsvp');
+  var nameEl = document.getElementById('rsvpName');
+  var errEl = document.getElementById('rsvpErr');
+  var countEl = document.getElementById('count');
+  var guests = 1;
+  function setCount(n) { guests = Math.max(1, Math.min(20, n)); countEl.textContent = guests; }
+  document.getElementById('minus').addEventListener('click', function () { setCount(guests - 1); });
+  document.getElementById('plus').addEventListener('click', function () { setCount(guests + 1); });
+  rsvp.addEventListener('change', function (e) {
+    if (e.target.name === 'att') rsvp.classList.toggle('no', e.target.value === 'No');
+  });
+  nameEl.addEventListener('input', function () { errEl.classList.remove('show'); nameEl.removeAttribute('aria-invalid'); });
+  rsvp.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = nameEl.value.trim();
+    if (!name) { errEl.classList.add('show'); nameEl.setAttribute('aria-invalid', 'true'); nameEl.focus(); return; }
+    var att = rsvp.querySelector('input[name=att]:checked').value;
+    var note = document.getElementById('rsvpNote').value.trim();
+    var lines = ['RSVP for Preeti\u2019s Godh Bharai / Baby Shower (Sun, Dec 6)', 'Name: ' + name, 'Attending: ' + att];
+    if (att !== 'No') lines.push('Guests: ' + guests);
+    if (note) lines.push('Message: ' + note);
+    rsvp.classList.add('sent');
+    if (att !== 'No') shower(30);
+    window.location.href = 'https://wa.me/16673698906?text=' + encodeURIComponent(lines.join('\n'));
+  });
 
   // Countdown to Sun Dec 6, 2026, 1:00 PM Eastern (18:00 UTC)
   var target = Date.UTC(2026, 11, 6, 18, 0, 0);
