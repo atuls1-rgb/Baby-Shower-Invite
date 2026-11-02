@@ -141,6 +141,7 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
 .err{display:none; font-size:13px; color:#A3261E}
 .err.show{display:block}
 .rsvp .send{width:100%; border:0; font-family:var(--sans)}
+.rsvp .send.ghost{border:1.5px solid var(--gold); background:#FFFAF2; margin-top:-6px}
 .thanks{display:none; text-align:center; font-size:14px; line-height:1.5; color:var(--rose)}
 .rsvp.sent .thanks{display:block}
 .rsvp-alt{text-align:center; font-size:13px; color:var(--ink-2)}
@@ -272,7 +273,7 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
 
     <form class="rsvp" id="rsvp" novalidate>
       <p class="kicker">Kindly RSVP</p>
-      <p class="rsvp-sub">Let us know if you can join us. Your reply opens in WhatsApp, ready to send.</p>
+      <p class="rsvp-sub">Let us know if you can join us. Send your reply by WhatsApp or by text message.</p>
       <label class="fld">Your name
         <input id="rsvpName" type="text" autocomplete="name" placeholder="Full name" aria-describedby="rsvpErr">
       </label>
@@ -299,8 +300,12 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3DC9C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5 5.3 15.6A8 8 0 1 1 8.6 18.8Z"/><path d="M9 10.5h6M9 13.5h4"/></svg>
         Send RSVP on WhatsApp
       </button>
-      <p class="thanks" id="rsvpThanks">Thank you! Tap send in WhatsApp to finish your RSVP.</p>
-      <p class="rsvp-alt">Not on WhatsApp? Text or call <a href="sms:+16673698906">(667) 369-8906</a></p>
+      <button type="submit" class="btn ghost send" data-via="sms">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>
+        Send RSVP by text message
+      </button>
+      <p class="thanks" id="rsvpThanks">Thank you! Tap send in your messaging app to finish your RSVP.</p>
+      <p class="rsvp-alt">Prefer to call? <a href="tel:+16673698906">(667) 369-8906</a></p>
     </form>
 
     <div class="actions">
@@ -390,6 +395,10 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
     if (e.target.name === 'att') rsvp.classList.toggle('no', e.target.value === 'No');
   });
   nameEl.addEventListener('input', function () { errEl.classList.remove('show'); nameEl.removeAttribute('aria-invalid'); });
+  var via = 'wa';
+  Array.prototype.forEach.call(rsvp.querySelectorAll('.send'), function (b) {
+    b.addEventListener('click', function () { via = b.getAttribute('data-via') || 'wa'; });
+  });
   rsvp.addEventListener('submit', function (e) {
     e.preventDefault();
     var name = nameEl.value.trim();
@@ -401,7 +410,13 @@ h1{margin-top:10px; font-family:var(--deva); font-weight:400; font-size:52px; li
     if (note) lines.push('Message: ' + note);
     rsvp.classList.add('sent');
     if (att !== 'No') shower(30);
-    window.location.href = 'https://wa.me/16673698906?text=' + encodeURIComponent(lines.join('\n'));
+    var body = lines.join('\n');
+    if (via === 'sms') {
+      var ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      window.location.href = 'sms:+16673698906' + (ios ? '&' : '?') + 'body=' + encodeURIComponent(body);
+    } else {
+      window.location.href = 'https://wa.me/16673698906?text=' + encodeURIComponent(body);
+    }
   });
 
   // Countdown to Sun Dec 6, 2026, 1:00 PM Eastern (18:00 UTC)
